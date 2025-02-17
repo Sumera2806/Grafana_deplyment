@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Sumera2806/Grafana_deplyment.git'
+            }
+        }
+        stage('Deploy Prometheus') {
+            steps {
+                sh 'kubectl apply -f prometheus-deployment.yaml'
+            }
+        }
+        stage('Deploy Grafana') {
+            steps {
+                sh 'kubectl apply -f grafana-deployment.yaml'
+            }
+        }
+        stage('Verify Deployment') {
+            steps {
+                sh 'kubectl get pods'
+                sh 'kubectl get svc'
+            }
+        }
+    }
+}
